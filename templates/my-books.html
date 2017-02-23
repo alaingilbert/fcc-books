@@ -1,0 +1,44 @@
+{{ define "extra-head" }}
+<style>
+.book {
+    border: 1px solid #ddd;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+}
+.book img {
+    margin-bottom: 5px;
+}
+</style>
+{{ end }}
+
+
+{{ define "content" }}
+
+<h1>My books:</h1>
+
+{{ if .error }}
+<div class="alert alert-danger">
+    <strong>Error:</strong> {{ .error }}
+</div>
+{{ end }}
+
+<form action="/newbook" method="POST" class="form-inline">
+    <input type="text" name="q" value="{{ .q }}" placeholder="Add book" class="form-control" />
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<div id="books">
+{{ range .books }}
+    <span class="book">
+        <div>
+            <img src="{{ .SmallThumbnail }}" alt="" />
+        </div>
+        <a href="/mybooks/delete/{{ .ID.Hex }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+    </span>
+{{ end }}
+</div>
+
+
+{{ end }}

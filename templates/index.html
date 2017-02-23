@@ -1,0 +1,33 @@
+{{ define "extra-head" }}
+<style>
+.book {
+    border: 1px solid #ddd;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+}
+</style>
+{{ end }}
+
+
+{{ define "content" }}
+
+<div id="books">
+{{ range .books }}
+    <span class="book">
+        <div>
+            <img src="{{ .SmallThumbnail }}" alt="" />
+        </div>
+        {{ if $.user.TwitterID }}
+            {{ if eq .Owner $.user.TwitterID }}
+                <a href="/mybooks/delete/{{ .ID.Hex }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+            {{ else }}
+                <a href="/trades/new/{{ .ID.Hex }}" class="btn btn-success"><i class="fa fa-exchange"></i></a>
+            {{ end }}
+        {{ end }}
+    </span>
+{{ end }}
+</div>
+
+{{ end }}

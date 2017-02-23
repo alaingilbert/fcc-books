@@ -1,0 +1,68 @@
+{{ define "extra-head" }}
+<style>
+.thumbnail {
+    float: left;
+    margin-right: 10px;
+}
+</style>
+{{ end }}
+
+
+{{ define "content" }}
+
+<h1>
+    New trade
+</h1>
+<hr />
+
+{{ if .error }}
+<div class="alert alert-danger">
+    <strong>Error:</strong> {{ .error }}
+</div>
+{{ end }}
+
+<form action="/trades/new" method="POST">
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Wanted book</h2>
+            <div class="form-group">
+                <img src="{{ .book.SmallThumbnail }}" alt="" class="thumbnail" />
+                <div>
+                    <label>Book:</label>
+                    {{ .book.Title }}<br />
+                    <label>Owner:</label>
+                    {{ .owner.NickName }}<br />
+                    <label>Name:</label>
+                    {{ .owner.Name }}<br />
+                    <label>City:</label>
+                    {{ .owner.City }}<br />
+                    <label>State:</label>
+                    {{ .owner.State }}<br />
+                </div>
+                <div style="clear: left;"></div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <h2>Trade with</h2>
+            <div class="form-group">
+                <img src="" alt="" class="thumbnail" />
+                <div>
+                    <select name="mybook">
+                        {{ range .mybooks }}
+                        <option value="{{ .ID.Hex }}"{{ if eq $.selectedBook .ID.Hex }} selected{{ end }}>{{ .Title }}</option>
+                        {{ end }}
+                    </select>
+                </div>
+                <div style="clear: left;"></div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        <input type="hidden" name="wantedbook" value="{{ .book.ID.Hex }}" />
+        <input type="hidden" name="bookowner" value="{{ .owner.TwitterID }}" />
+        <button type="submit" class="btn btn-primary">Create trade</button>
+    </div>
+</form>
+
+{{ end }}

@@ -1,0 +1,53 @@
+{{ define "extra-head" }}
+<style>
+.trade {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+</style>
+{{ end }}
+
+
+{{ define "content" }}
+
+<h1>Trades</h1>
+
+<div class="row">
+    <div class="col-sm-6">
+        <h2>My trades:</h2>
+        <div>
+            {{ if not .mytrades }}
+                <span>You have no trade request.</span>
+            {{ end }}
+
+            {{ range .mytrades }}
+                <div class="trade">
+                    <strong>My book:</strong> {{ .Book1Title }}<br />
+                    <strong>Wanted book:</strong> {{ .Book2Title }}<br />
+                    <a href="/trades/delete/{{ .ID.Hex }}" class="btn btn-danger"><i class="fa fa-trash"></i> Remove</a>
+                </div>
+            {{ end }}
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <h2>Trades requests for you:</h2>
+        <div>
+            {{ if not .requestedtrades }}
+                <span>You have no requests for trade.</span>
+            {{ end }}
+
+            {{ range .requestedtrades }}
+                <div class="trade">
+                    <strong>His book:</strong> {{ .Book1Title }}<br />
+                    <strong>Your book:</strong> {{ .Book2Title }}<br />
+                    <a href="/trades/accept/{{ .ID.Hex }}" class="btn btn-success"><i class="fa fa-thumbs-up"></i> Accept</a>
+                    <a href="/trades/decline/{{ .ID.Hex }}" class="btn btn-default"><i class="fa fa-thumbs-o-down"></i> Decline</a>
+                </div>
+            {{ end }}
+        </div>
+    </div>
+</div>
+
+{{ end }}
